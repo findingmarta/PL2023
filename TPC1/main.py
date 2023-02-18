@@ -1,26 +1,21 @@
-
 dados = []
 sexos = {"M": [0,0], "F": [0,0]}
 faixas_etarias = dict()
 niveis_colesterol = dict()
 
-#
 def parseFile():
+    # Guardamos a informação do ficheiro em memória
     with open("TPC1/myheart.csv", "r") as f:
         for line in f.readlines()[1:]:
-            dados_pessoa = line[:-1].split(',')
+            # [:-1] para ignorar o \n
+            dados_pessoa = line[:-1].split(',') 
             dados.append(dados_pessoa)
     
-    #
+    # Preenchemos os dicionários com a informação guardada
     set_sexos()
-    
-    #
     set_faixas_etarias()
-        
-    #
     set_niveis_colesterol()  
 
-#
 def set_sexos():
     for dado in dados:
         if dado[1] in ['M','F']:
@@ -28,7 +23,7 @@ def set_sexos():
             if int(dado[5]) == 1:
                 sexos[dado[1]][0] += 1  
 
-#
+# Devolve o minimo (pre definido) e o maximo da idade
 def get_max_idade():
     min = 30
     max = 0
@@ -37,12 +32,11 @@ def get_max_idade():
             max = int(dado[0])
     return (min,max)
 
-#
 def set_faixas_etarias():
     # Procura o valor máximo da idade no dataset dado
     min, max = get_max_idade()
 
-    # Define os niveis de colesterol
+    # Define as faixas etárias
     while min <= max:
         faixas_etarias[min] = [0,0]
         min += 5
@@ -55,7 +49,7 @@ def set_faixas_etarias():
                 if int(dado[5]) == 1:
                     faixas_etarias[key][0] += 1
 
-#
+# Devolve o valor minimo e máximo do colesterol no dataset dado
 def get_min_max_colesterol():
     min = 100000
     max = 0
@@ -66,7 +60,6 @@ def get_min_max_colesterol():
             max = int(dado[3])
     return (min,max)
 
-#
 def set_niveis_colesterol():
     # Procura o valor minimo e máximo do colesterol no dataset dado
     min, max = get_min_max_colesterol()
@@ -84,7 +77,7 @@ def set_niveis_colesterol():
                 if int(dado[5]) == 1:
                     niveis_colesterol[key][0] += 1
 
-#
+# Imprime uma tabela segundo uma distribuicao
 def tabela(opcao, distrbuicao):   
     for k, v in distrbuicao.items():
         if v[1] != 0:
@@ -103,7 +96,7 @@ def tabela(opcao, distrbuicao):
         elif opcao == 3:
             print ("{:<20}".format(str(k) + " - " + str(k+10)) + str(round(perc,2)) + "%")
 
-#   
+# Menu principal do programa  
 def menu():
     parseFile()
 
@@ -115,12 +108,15 @@ def menu():
     opcao = input("Qual a sua opção? ")
     print("\n")
     if int(opcao) == 1:
+        # Header da tabela
         print("{:<15}COM DOENÇA".format('SEXO'))
         tabela(int(opcao), sexos)
     elif int(opcao) == 2: 
+        # Header da tabela
         print("{:<20}COM DOENÇA".format('FAIXA ETÁRIA'))
         tabela(int(opcao), faixas_etarias)
     elif int(opcao) == 3:
+        # Header da tabela
         print("{:<20}COM DOENÇA".format('NÍVEL COLESTEROL'))         
         tabela(int(opcao), niveis_colesterol)
     elif int(opcao) == 0:
