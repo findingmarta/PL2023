@@ -142,23 +142,4 @@ def menu():
     plt.grid()
     plt.show()
 
-def distPorId(intervalos):
-    #intervalos contem tuplos com (cardinalidade de pessoas, cardinalidade de pessoas infetadas)
-    distribuicoes = dict()
-    pessoas_infetadas = 0
-    pessoas_total = 0
-
-    #percorre todas as faixas etarias para determinar o total de pessoas infetadas e o total de pessoas
-    for intervalo in intervalos:
-        pessoas_total += intervalo[0]
-        pessoas_infetadas += intervalo[1]
-
-    prob_infetada = pessoas_infetadas/pessoas_total
-
-    for i in range(30,104,5):
-        if intervalos[i] is not None:
-            distribuicoes[i] = (intervalos[0]/intervalos[1]) * prob_infetada
-
-    return distribuicoes
-
 menu()
