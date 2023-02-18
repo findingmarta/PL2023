@@ -9,12 +9,7 @@ def parseFile():
         for line in f.readlines()[1:]:
             # [:-1] para ignorar o \n
             dados_pessoa = line[:-1].split(',') 
-            dados.append(dados_pessoa)
-    
-    # Preenchemos os dicionários com a informação guardada
-    set_sexos()
-    set_faixas_etarias()
-    set_niveis_colesterol()  
+            dados.append(dados_pessoa)  
 
 def set_sexos():
     for dado in dados:
@@ -98,8 +93,14 @@ def tabela(opcao, distrbuicao):
 
 # Menu principal do programa  
 def menu():
+    # Fazemos o parse dos ficheiros
     parseFile()
-
+    
+    # Preenchemos os dicionários com a informação guardada
+    set_sexos()
+    set_faixas_etarias()
+    set_niveis_colesterol()
+    
     print("1 - Percentagem de doentes por sexo")
     print("2 - Percentagem de doentes por faixa etária")
     print("3 - Percentagem de doentes por nível de colesterol")
