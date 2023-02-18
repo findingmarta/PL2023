@@ -1,70 +1,135 @@
 
-sexos = {"M": 0, "F": 0}
-faixas_etarias = {"30-34" : 0, "35-39" : 0, "40-44" : 0, "45-49" : 0, "50-54" : 0, "55-59" : 0, "60-64" : 0, "65-69" : 0, "+70" : 0}
+dados = []
+sexos = {"M": [0,0], "F": [0,0]}
+faixas_etarias = dict()
 niveis_colesterol = dict()
 
 def parseFile():
     with open("TPC1/myheart.csv", "r") as f:
         for line in f.readlines()[1:]:
-            args = line.split(',')
-
-            idade = int(args[0])            
-
-            #
-            if args[1] in ['M', 'F']:
-                sexos[args[1]] += 1
-
-            #
-            if 30 <= idade <= 34:
-                faixas_etarias["30-34"] += 1
-            elif 30 <= idade <= 34:
-                faixas_etarias["35-39"] += 1    
-            elif 40 <= idade <= 44:
-                faixas_etarias["40-44"] += 1
-            elif 45 <= idade <= 49:
-                faixas_etarias["45-49"] += 1
-            elif 50 <= idade <= 54:
-                faixas_etarias["50-54"] += 1
-            elif 55 <= idade <= 59:
-                faixas_etarias["55-59"] += 1
-            elif 60 <= idade <= 64:
-                faixas_etarias["60-64"] += 1
-            elif 65 <= idade <= 69:
-                faixas_etarias["65-69"] += 1
-            elif idade >= 70:
-                faixas_etarias["+70"] += 1
+            dados_pessoa = line[:-1].split(',')
+            dados.append(dados_pessoa)
     
-            #
+    #
+    set_sexos()
+    
+    #
+    set_faixas_etarias()
+        
+    #
+    set_niveis_colesterol()  
 
-def opcoes():
+#
+def set_sexos():
+    for dado in dados:
+        if dado[1] in ['M','F']:
+            sexos[dado[1]][1] += 1
+            if int(dado[5]) == 1:
+                sexos[dado[1]][0] += 1  
+
+#
+def get_max_idade():
+    min = 30
+    max = 0
+    for dado in dados:
+        if int(dado[0]) > max:
+            max = int(dado[0])
+    return (min,max)
+
+#
+def set_faixas_etarias():
+    # Procura o valor máximo da idade no dataset dado
+    min, max = get_max_idade()
+
+    # Define os niveis de colesterol
+    while min <= max:
+        faixas_etarias[min] = [0,0]
+        min += 5
+    
+    # Define a quantidade de pessoas doentes para cada faixa de etária
+    for dado in dados:
+        for key in faixas_etarias.keys():
+            if key <= int(dado[0]) <= key + 4:
+                faixas_etarias[key][1] += 1
+                if int(dado[5]) == 1:
+                    faixas_etarias[key][0] += 1
+
+#
+def get_min_max_colesterol():
+    min = 100000
+    max = 0
+    for dado in dados:
+        if int(dado[3]) < min:
+            min = int(dado[3])
+        if int(dado[3]) > max:
+            max = int(dado[3])
+    return (min,max)
+
+#
+def set_niveis_colesterol():
+    # Procura o valor minimo e máximo do colesterol no dataset dado
+    min, max = get_min_max_colesterol()
+
+    # Define os niveis de colesterol
+    while min <= max:
+        niveis_colesterol[min] = [0,0]
+        min += 11
+    
+    # Define a quantidade de pessoas doentes para cada nivel de colesterol
+    for dado in dados:
+        for key in niveis_colesterol.keys():
+            if key <= int(dado[3]) <= key + 10:
+                niveis_colesterol[key][1] += 1
+                if int(dado[5]) == 1:
+                    niveis_colesterol[key][0] += 1
+
+def tabela(opcao, distrbuicao):
+    if opcao == 1:
+        print("{:<15} {:<15}".format('SEXO','COM DOENÇA'))
+    elif opcao == 2:
+        print("{:<20} {:<40}".format('FAIXA ETÁRIA','COM DOENÇA'))
+    elif opcao == 3:
+        print("{:<20} {:<40}".format('NÍVEL COLESTEROL','COM DOENÇA'))         
+    
+    for k, v in distrbuicao.items():
+        if v[1] != 0:
+            perc = v[0] / v[1] * 100
+        else:
+            perc = 0
+        
+        if opcao == 1:
+            if k == 'M':
+                s = "Masculino"
+            else:
+                s = "Feminino"
+            print ("{:<15} {:<15}".format(s , str(round(perc,2)) + "%"))
+        elif opcao == 2:
+            print ("{:<20} {:<40}".format(str(k) + " - " + str(k+4) + " anos", str(round(perc,2)) + "%"))
+
+        elif opcao == 3:
+            print ("{:<20} {:<40}".format(str(k) + " - " + str(k+10), str(round(perc,2)) + "%"))
+
+#   
+def menu():
     parseFile()
 
     print("1 - Percentagem de doentes por sexo")
-    print("2 - Percentagem de doentes por escalões de idade")
+    print("2 - Percentagem de doentes por faixa etária")
     print("3 - Percentagem de doentes por nível de colesterol")
-    print("4 - Tabela ordenada por idade")
-    print("5 - Sair")
+    print("0 - Sair")
     print("\n")
     opcao = input("Qual a sua opção? ")
+    print("\n")
     if int(opcao) == 1:
-        print(sexos["M"])
-        print(sexos["F"])
-
-    if int(opcao) == 2: 
-        print(f"30-34 anos: ", faixas_etarias["30-34"])
-        print(f"35-39 anos: ", faixas_etarias["35-39"])
-        print(f"40-44 anos: ", faixas_etarias["40-44"])
-        print(f"45-49 anos: ", faixas_etarias["45-49"])
-        print(f"50-54 anos: ", faixas_etarias["50-54"])
-        print(f"55-59 anos: ", faixas_etarias["55-59"])
-        print(f"60-64 anos: ", faixas_etarias["60-64"])
-        print(f"65-69 anos: ", faixas_etarias["65-69"])
-        print(f"  +70 anos: ", faixas_etarias["+70"])
-
-    elif int(opcao) == 5:
-        print("Adeus!")
+        tabela(int(opcao), sexos)
+    elif int(opcao) == 2: 
+        tabela(int(opcao), faixas_etarias)
+    elif int(opcao) == 3:
+        tabela(int(opcao), niveis_colesterol)
+    elif int(opcao) == 0:
+        print("Saindo...")
     else:
         print("Opção inválida!")
-        opcoes()
+        menu()
 
-opcoes()
+menu()
