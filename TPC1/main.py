@@ -4,6 +4,7 @@ sexos = {"M": [0,0], "F": [0,0]}
 faixas_etarias = dict()
 niveis_colesterol = dict()
 
+#
 def parseFile():
     with open("TPC1/myheart.csv", "r") as f:
         for line in f.readlines()[1:]:
@@ -83,14 +84,8 @@ def set_niveis_colesterol():
                 if int(dado[5]) == 1:
                     niveis_colesterol[key][0] += 1
 
-def tabela(opcao, distrbuicao):
-    if opcao == 1:
-        print("{:<15} {:<15}".format('SEXO','COM DOENÇA'))
-    elif opcao == 2:
-        print("{:<20} {:<40}".format('FAIXA ETÁRIA','COM DOENÇA'))
-    elif opcao == 3:
-        print("{:<20} {:<40}".format('NÍVEL COLESTEROL','COM DOENÇA'))         
-    
+#
+def tabela(opcao, distrbuicao):   
     for k, v in distrbuicao.items():
         if v[1] != 0:
             perc = v[0] / v[1] * 100
@@ -102,12 +97,11 @@ def tabela(opcao, distrbuicao):
                 s = "Masculino"
             else:
                 s = "Feminino"
-            print ("{:<15} {:<15}".format(s , str(round(perc,2)) + "%"))
+            print ("{:<15}".format(s) + str(round(perc,2)) + "%")
         elif opcao == 2:
-            print ("{:<20} {:<40}".format(str(k) + " - " + str(k+4) + " anos", str(round(perc,2)) + "%"))
-
+            print ("{:<20}".format(str(k) + " - " + str(k+4) + " anos") + str(round(perc,2)) + "%")
         elif opcao == 3:
-            print ("{:<20} {:<40}".format(str(k) + " - " + str(k+10), str(round(perc,2)) + "%"))
+            print ("{:<20}".format(str(k) + " - " + str(k+10)) + str(round(perc,2)) + "%")
 
 #   
 def menu():
@@ -121,10 +115,13 @@ def menu():
     opcao = input("Qual a sua opção? ")
     print("\n")
     if int(opcao) == 1:
+        print("{:<15}COM DOENÇA".format('SEXO'))
         tabela(int(opcao), sexos)
     elif int(opcao) == 2: 
+        print("{:<20}COM DOENÇA".format('FAIXA ETÁRIA'))
         tabela(int(opcao), faixas_etarias)
     elif int(opcao) == 3:
+        print("{:<20}COM DOENÇA".format('NÍVEL COLESTEROL'))         
         tabela(int(opcao), niveis_colesterol)
     elif int(opcao) == 0:
         print("Saindo...")
