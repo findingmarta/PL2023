@@ -1,7 +1,5 @@
-
 def main():
-    texto = input("Texto: \n")
-    texto = texto.lower()
+    texto = input("Texto: \n").lower()
     On = False
     total = 0
     i = 0
@@ -18,7 +16,7 @@ def main():
                         j += 1
                     total += int(texto[i:j])
                     i = j
-            
+                    
             if texto[i:i+2] == "on":
                 On = True
                 i += 2
@@ -27,9 +25,8 @@ def main():
                 i += 3
             else:
                 i += 1
-        
-        
+         
 main()
 
-# on1off222==off333 on123=444on 555 =on666off=2=
+# on1oFf222==off333 ON123=444on 555 =on666off=2=
 # 111 off 222 = off 333 on = 444 on 555 = on 666 off = 2
