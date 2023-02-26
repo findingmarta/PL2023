@@ -15,7 +15,7 @@ def main():
                     while j < len(texto) and texto[j].isdigit():
                         j += 1
                     total += int(texto[i:j])
-                    i = j
+                    i = j - 1
                     
             if texto[i:i+2] == "on":
                 On = True
@@ -28,5 +28,7 @@ def main():
          
 main()
 
+# TESTAR
+# jpdf20ahon100=40adsffasd oFF32 On=18On=On
 # on1oFf222==off333 ON123=444on 555 =on666off=2=
 # 111 off 222 = off 333 on = 444 on 555 = on 666 off = 2
