@@ -1,30 +1,34 @@
+from sys import stdin
+
 def main():
-    texto = input("Texto: \n").lower()
     On = False
     total = 0
-    i = 0
 
-    while i != len(texto):
-        if texto[i] == "=":
-            print(f"A soma dos números encontrados é: {total}") 
-            i += 1
-        else:
-            if On:
-                if texto[i].isdigit():
-                    j = i
-                    while j < len(texto) and texto[j].isdigit():
-                        j += 1
-                    total += int(texto[i:j])
-                    i = j - 1
-                    
-            if texto[i:i+2] == "on":
-                On = True
-                i += 2
-            elif texto[i:i+3] == "off":
-                On = False
-                i += 3
-            else:
+    for texto in stdin:
+        texto = texto.lower()
+        i = 0
+
+        while i != len(texto):
+            if texto[i] == "=":
+                print(f"A soma dos números encontrados é: {total}") 
                 i += 1
+            else:
+                if On:
+                    if texto[i].isdigit():
+                        j = i
+                        while j < len(texto) and texto[j].isdigit():
+                            j += 1
+                        total += int(texto[i:j])
+                        i = j - 1
+                        
+                if texto[i:i+2] == "on":
+                    On = True
+                    i += 2
+                elif texto[i:i+3] == "off":
+                    On = False
+                    i += 3
+                else:
+                    i += 1
          
 main()
 
