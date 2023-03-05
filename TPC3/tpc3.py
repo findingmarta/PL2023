@@ -113,22 +113,18 @@ def relacoes():
 # d) Converta os 20 primeiros registos num novo ficheiro de output mas em formato Json.
 def convert_to_json():
     data = []
-    
-    print("A converter para JSON...\n")
-    for index in range(0,20):
-        dados = dataset[index].strip().split("\n")
-        registo = {}
-        for index, campo in enumerate(dados):
-            key = 'processo'.format(index+1)
-            registo[key] = campo
-        data.append(registo)
 
-    json_str = json.dumps(data)
-    print("A escever no novo ficheiro...\n")
     with open("TPC3/processos.json", "w", encoding="utf-8") as f:
-        f.write(json_str)
-    print("Conlcuido!\n")
+        for line in dataset[:20]:
+            registo = {}
+            dados = line.strip().split("\n")
+            for i, campo in enumerate(dados):
+                key = 'processo'.format(i+1)
+                registo[key] = campo
+            data.append(registo)
 
+        json_str = json.dumps(data)
+        f.write(json_str)
 
 # Menu secundário destinado à alinea b)
 def menu_nomes():
