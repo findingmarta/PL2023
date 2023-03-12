@@ -8,7 +8,7 @@ Número,Nome,Curso
 264,Marcelo Sousa,Ciência Política
 Que corresponde a uma tabela com 3 registos de informação: a primeira linha de cabeçalho identifica os campos de cada registo, Número, Nome, Curso, e as linhas seguintes contêm os registos de informação.
 
-No entanto, os CSV recebidos poderão conter algumas extensões cuja semântica se explica a seguir:
+#### No entanto, os CSV recebidos poderão conter algumas extensões cuja semântica se explica a seguir:
 
 #### 1. Listas
 #### No cabeçalho, cada campo poderá ter um número N que representará o número de colunas que esse campo abrange. Por exemplo, imaginemos que ao exemplo anterior se acrescentou um campo Notas, com N = 5 ("alunos2.csv"):
